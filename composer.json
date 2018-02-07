@@ -1,0 +1,24 @@
+{
+    "name": "nikitakls/yii2-support-ticket",
+    "description": "Yii2 support module with ticket system",
+    "type": "yii2-extension",
+    "keywords": ["yii2","module","support"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "nikitakls",
+            "email": "nikitakls@yandex.ru"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "~2.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "nikitakls\\support\\": "src"
+        }
+    },
+    "extra": {
+        "bootstrap": "nikitakls\\support\\Bootstrap"
+    }
+}
