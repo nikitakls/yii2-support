@@ -2,6 +2,7 @@
 
 namespace nikitakls\support\models;
 
+use nikitakls\support\models\search\CategoryQuery;
 use Yii;
 
 /**
@@ -12,9 +13,9 @@ use Yii;
  * @property string $icon
  * @property int $status
  *
- * @property SupportRequest[] $supportRequests
+ * @property Ticket[] $supportRequests
  */
-class SupportCategory extends \yii\db\ActiveRecord
+class Category extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -22,6 +23,15 @@ class SupportCategory extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%support_category}}';
+    }
+
+    /**
+     * @inheritdoc
+     * @return CategoryQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new CategoryQuery(get_called_class());
     }
 
     /**
@@ -54,15 +64,7 @@ class SupportCategory extends \yii\db\ActiveRecord
      */
     public function getSupportRequests()
     {
-        return $this->hasMany(SupportRequest::className(), ['category_id' => 'id']);
+        return $this->hasMany(Ticket::className(), ['category_id' => 'id']);
     }
 
-    /**
-     * @inheritdoc
-     * @return SupportCategoryQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new SupportCategoryQuery(get_called_class());
-    }
 }

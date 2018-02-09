@@ -1,13 +1,15 @@
 <?php
 
-namespace nikitakls\support\models;
+namespace nikitakls\support\models\search;
+
+use nikitakls\support\models\Content;
 
 /**
- * This is the ActiveQuery class for [[SupportRequest]].
+ * This is the ActiveQuery class for [[Content]].
  *
- * @see SupportRequest
+ * @see Content
  */
-class SupportRequestQuery extends \yii\db\ActiveQuery
+class ContentQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +18,7 @@ class SupportRequestQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return SupportRequest[]|array
+     * @return Content[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +27,7 @@ class SupportRequestQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return SupportRequest|array|null
+     * @return Content|array|null
      */
     public function one($db = null)
     {

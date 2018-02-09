@@ -1,15 +1,15 @@
 <?php
 
-namespace nikitakls\support\models;
+namespace nikitakls\support\models\search;
 
+use nikitakls\support\models\Ticket;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use nikitakls\support\models\SupportCategory;
 
 /**
- * SupportCategorySearch represents the model behind the search form of `nikitakls\support\models\SupportCategory`.
+ * SupportRequestSearch represents the model behind the search form of `nikitakls\support\models\SupportRequest`.
  */
-class SupportCategorySearch extends SupportCategory
+class TicketSearch extends Ticket
 {
     /**
      * @inheritdoc
@@ -17,8 +17,8 @@ class SupportCategorySearch extends SupportCategory
     public function rules()
     {
         return [
-            [['id', 'status'], 'integer'],
-            [['title', 'icon'], 'safe'],
+            [['id', 'category_id', 'parent_id', 'status', 'level', 'created_at', 'user_id'], 'integer'],
+            [['filename', 'title', 'message', 'email', 'fio'], 'safe'],
         ];
     }
 
@@ -38,14 +38,16 @@ class SupportCategorySearch extends SupportCategory
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $with = [], $userId = null)
     {
-        $query = SupportCategory::find();
+        $query = Ticket::find();
+        $query->with($with);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['id' => SORT_DESC]]
         ]);
 
         $this->load($params);
@@ -59,11 +61,18 @@ class SupportCategorySearch extends SupportCategory
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'category_id' => $this->category_id,
+            'parent_id' => $this->parent_id,
             'status' => $this->status,
+            'level' => $this->level,
+            'created_at' => $this->created_at,
+            'user_id' => is_null($userId) ? $this->user_id : $userId,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'icon', $this->icon]);
+            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'fio', $this->fio]);
+
 
         return $dataProvider;
     }

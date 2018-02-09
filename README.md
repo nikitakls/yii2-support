@@ -2,6 +2,8 @@ Yii2 support module with ticket system
 ======================================
 Yii2 support module with ticket system
 
+> **NOTE:** Module is in initial development. Anything may change at any time.
+
 Installation
 ------------
 
@@ -27,6 +29,36 @@ Usage
 
 Once the extension is installed, simply use it in your code by  :
 
-```php
+- **Apply migrations**
+```
+yii migrate/up -p=@nikitakls/support/migrations
+```
+## Restrict and split frontend and backend applications
 
+- **Configure module**
+
+Add module in config file application for frontend:
+
+```php
+'modules'   => [
+    'class' => \nikitakls\support\Support::class,
+    'support'   => 'nikitakls\support\Support',
+    'layout' => '@frontend/views/layouts/profile',
+    'isBackend' => false,
+    'supportEmail' => 'support@example.com',
+    'sendEmailToSupport' => true,
+    'sendEmailToUser' => true,
+    'uploadBehavior' => [
+        'filePath' => '@filePath/origin/support/[[attribute_ticket_id]]/[[pk]].[[extension]]',
+        'fileUrl' => '@fileUrl/origin/support/[[attribute_ticket_id]]/[[pk]].[[extension]]',
+    ]
+],
+```
+
+Add module in config file application for backend:
+```php
+'modules'   => [
+    ...
+    'isBackend' => false,
+],
 ```

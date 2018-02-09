@@ -3,7 +3,6 @@
 namespace nikitakls\support;
 
 use Yii;
-use yii\authclient\Collection;
 use yii\base\BootstrapInterface;
 use yii\base\Module;
 use yii\console\Application as ConsoleApplication;
@@ -23,17 +22,17 @@ class Bootstrap implements BootstrapInterface
         /** @var \yii\db\ActiveRecord $modelName */
         if ($app->hasModule('support') && ($module = $app->getModule('support')) instanceof Module) {
 
-            Yii::$container->setSingleton('base', function (){
+            Yii::$container->setSingleton('base', function () {
                 return null;
             });
 
             if ($app instanceof ConsoleApplication) {
-                $module->controllerNamespace = 'nikitakls\user\commands';
+                $module->controllerNamespace = 'nikitakls\support\commands';
             } else {
 
                 $configUrlRule = [
                     'prefix' => $module->urlPrefix,
-                    'rules'  => $module->urlRules,
+                    'rules' => $module->urlRules,
                 ];
 
                 $configUrlRule['class'] = 'yii\web\GroupUrlRule';
@@ -44,7 +43,7 @@ class Bootstrap implements BootstrapInterface
             }
 
             if (!isset($app->get('i18n')->translations['user*'])) {
-                $app->get('i18n')->translations['user*'] = [
+                $app->get('i18n')->translations['support*'] = [
                     'class' => PhpMessageSource::className(),
                     'basePath' => __DIR__ . '/messages',
                     'sourceLanguage' => 'en-US'

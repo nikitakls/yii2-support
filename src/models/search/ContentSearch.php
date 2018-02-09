@@ -1,15 +1,15 @@
 <?php
 
-namespace nikitakls\support\models;
+namespace nikitakls\support\models\search;
 
+use nikitakls\support\models\Content;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use nikitakls\support\models\SupportRequest;
 
 /**
- * SupportRequestSearch represents the model behind the search form of `nikitakls\support\models\SupportRequest`.
+ * ContentSearch represents the model behind the search form of `nikitakls\support\models\Content`.
  */
-class SupportRequestSearch extends SupportRequest
+class ContentSearch extends Content
 {
     /**
      * @inheritdoc
@@ -17,8 +17,8 @@ class SupportRequestSearch extends SupportRequest
     public function rules()
     {
         return [
-            [['id', 'category_id', 'parent_id', 'status', 'answered', 'created_at', 'sending_at', 'user_id'], 'integer'],
-            [['filename', 'title', 'message', 'email', 'fio'], 'safe'],
+            [['id', 'ticket_id', 'type', 'user_id', 'created_at', 'sending_at'], 'integer'],
+            [['message', 'filename'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class SupportRequestSearch extends SupportRequest
      */
     public function search($params)
     {
-        $query = SupportRequest::find();
+        $query = Content::find();
 
         // add conditions that should always apply here
 
@@ -59,20 +59,15 @@ class SupportRequestSearch extends SupportRequest
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'category_id' => $this->category_id,
-            'parent_id' => $this->parent_id,
-            'status' => $this->status,
-            'answered' => $this->answered,
+            'ticket_id' => $this->ticket_id,
+            'type' => $this->type,
+            'user_id' => $this->user_id,
             'created_at' => $this->created_at,
             'sending_at' => $this->sending_at,
-            'user_id' => $this->user_id,
         ]);
 
-        $query->andFilterWhere(['like', 'filename', $this->filename])
-            ->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'message', $this->message])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'fio', $this->fio]);
+        $query->andFilterWhere(['like', 'message', $this->message])
+            ->andFilterWhere(['like', 'filename', $this->filename]);
 
         return $dataProvider;
     }
