@@ -3,6 +3,7 @@ Yii2 support module with ticket system
 Yii2 support module with ticket system
 
 > **NOTE:** Module is in initial development. Anything may change at any time.
+> v.0.1
 
 Installation
 ------------
