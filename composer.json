@@ -24,8 +24,5 @@
     "psr-4": {
       "nikitakls\\support\\": "src"
     }
-  },
-  "extra": {
-    "bootstrap": "nikitakls\\support\\Bootstrap"
   }
 }

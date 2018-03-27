@@ -2,12 +2,13 @@
 
 namespace nikitakls\support\forms\content;
 
+use nikitakls\support\helpers\ContentHelper;
 use nikitakls\support\models\Content;
-use Yii;
 use yii\base\Model;
 
 /**
  * This is the model class for active record model "Content".
+ * @author nikitakls
  *
  * @property int $ticket_id
  * @property string $message
@@ -30,7 +31,11 @@ class ContentEditForm extends Model
     /** @var Content */
     protected $_model;
 
-
+    /**
+     * ContentEditForm constructor.
+     * @param Content $model
+     * @param array $config
+     */
     public function __construct(Content $model, $config = [])
     {
         $this->ticket_id = $model->ticket_id;
@@ -46,7 +51,7 @@ class ContentEditForm extends Model
         parent::__construct($config);
     }
 
-    /*
+    /**
      * @inheritdoc
      */
     public function rules()
@@ -64,16 +69,7 @@ class ContentEditForm extends Model
      */
     public function attributeLabels()
     {
-        return [
-            'ID' => Yii::t('support', 'ID'),
-            'Ticket ID' => Yii::t('support', 'Ticket ID'),
-            'Message' => Yii::t('support', 'Message'),
-            'Filename' => Yii::t('support', 'Filename'),
-            'Type' => Yii::t('support', 'Type'),
-            'User ID' => Yii::t('support', 'User ID'),
-            'Created At' => Yii::t('support', 'Created At'),
-            'Sending At' => Yii::t('support', 'Sending At'),
-        ];
+        return ContentHelper::attributeLabels();
     }
 
     /**

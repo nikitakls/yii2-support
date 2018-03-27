@@ -7,6 +7,7 @@ use nikitakls\support\forms\category\CategoryEditForm;
 use nikitakls\support\models\search\CategorySearch;
 use nikitakls\support\repo\CategoryRepo;
 use nikitakls\support\services\CategoryService;
+use nikitakls\support\Support;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -14,6 +15,7 @@ use yii\web\NotFoundHttpException;
 
 /**
  * CategoryController implements the CRUD actions for SupportCategory model.
+ * @author nikitakls
  */
 class CategoryController extends Controller
 {
@@ -22,6 +24,14 @@ class CategoryController extends Controller
     /** @var CategoryRepo */
     protected $categories;
 
+    /**
+     * CategoryController constructor.
+     * @param $id
+     * @param $module
+     * @param CategoryRepo $categories
+     * @param CategoryService $service
+     * @param array $config
+     */
     public function __construct($id, $module, CategoryRepo $categories, CategoryService $service,
                                 array $config = [])
     {
@@ -37,7 +47,7 @@ class CategoryController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -85,7 +95,7 @@ class CategoryController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $model = $this->categoryService->create($form);
-                Yii::$app->session->setFlash('success', 'You puzzle saved successfully.');
+                Yii::$app->session->setFlash('success', Support::t('base', 'You category saved successfully.'));
                 return $this->redirect(['view', 'id' => $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -114,7 +124,7 @@ class CategoryController extends Controller
 
             try {
                 $model = $this->categoryService->edit($id, $form);
-                Yii::$app->session->setFlash('success', 'SupportCategory updated.');
+                Yii::$app->session->setFlash('success', Support::t('base', 'Category updated successfully.'));
                 return $this->redirect(['view', 'id' => $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

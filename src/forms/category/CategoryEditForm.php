@@ -3,11 +3,12 @@
 namespace nikitakls\support\forms\category;
 
 use nikitakls\support\models\Category;
-use Yii;
+use nikitakls\support\Support;
 use yii\base\Model;
 
 /**
  * This is the model class for active record model "SupportCategory".
+ * @author nikitakls
  *
  * @property string $title
  * @property string $icon
@@ -23,6 +24,11 @@ class CategoryEditForm extends Model
     protected $_model;
 
 
+    /**
+     * CategoryEditForm constructor.
+     * @param Category $model
+     * @param array $config
+     */
     public function __construct(Category $model, $config = [])
     {
         $this->title = $model->title;
@@ -34,7 +40,7 @@ class CategoryEditForm extends Model
         parent::__construct($config);
     }
 
-    /*
+    /**
      * @inheritdoc
      */
     public function rules()
@@ -52,10 +58,10 @@ class CategoryEditForm extends Model
     public function attributeLabels()
     {
         return [
-            'ID' => Yii::t('support', 'ID'),
-            'Title' => Yii::t('support', 'Title'),
-            'Icon' => Yii::t('support', 'Icon'),
-            'Status' => Yii::t('support', 'Status'),
+            'ID' => Support::t('base', 'ID'),
+            'Title' => Support::t('base', 'Title'),
+            'Icon' => Support::t('base', 'Icon'),
+            'Status' => Support::t('base', 'Status'),
         ];
     }
 

@@ -2,6 +2,7 @@
 
 use nikitakls\support\helpers\CategoryHelper;
 use nikitakls\support\models\Category;
+use nikitakls\support\Support;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
@@ -10,7 +11,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel \nikitakls\support\models\search\CategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('support', 'Support Categories');
+$this->title = Support::t('base', 'Support Categories');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="support-category-index">
@@ -18,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::begin(); ?>
 
     <p>
-        <?= Html::a(Yii::t('support', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Support::t('base', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

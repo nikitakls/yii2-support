@@ -5,6 +5,7 @@ namespace nikitakls\support\controllers\backend;
 use nikitakls\support\forms\content\ContentEditForm;
 use nikitakls\support\repo\ContentRepo;
 use nikitakls\support\services\ContentService;
+use nikitakls\support\Support;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -12,6 +13,7 @@ use yii\web\NotFoundHttpException;
 
 /**
  * ContentController implements the CRUD actions for Content model.
+ * @author nikitakls
  */
 class ContentController extends Controller
 {
@@ -20,6 +22,14 @@ class ContentController extends Controller
     /** @var ContentRepo */
     protected $contents;
 
+    /**
+     * ContentController constructor.
+     * @param $id
+     * @param $module
+     * @param ContentRepo $contents
+     * @param ContentService $contentService
+     * @param array $config
+     */
     public function __construct($id, $module, ContentRepo $contents, ContentService $contentService,
                                 array $config = [])
     {
@@ -35,7 +45,7 @@ class ContentController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -59,7 +69,7 @@ class ContentController extends Controller
 
             try {
                 $model = $this->service->edit($id, $form);
-                Yii::$app->session->setFlash('success', 'Content updated.');
+                Yii::$app->session->setFlash('success', Support::t('base', 'Content updated.'));
                 return $this->redirect(['ticket/view', 'id' => $model->ticket_id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
@@ -91,6 +101,7 @@ class ContentController extends Controller
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
+        return '';
 
     }
 

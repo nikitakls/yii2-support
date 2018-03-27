@@ -1,18 +1,16 @@
 <?php
-/**
- * PuzzleHelper.php
- * User: nikitakls
- * Date: 05.12.17
- * Time: 16:53
- */
 
 namespace nikitakls\support\helpers;
 
 
-use Yii;
+use nikitakls\support\Support;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
+/**
+ * PuzzleHelper.php
+ * @author  nikitakls
+ */
 class TicketHelper
 {
 
@@ -28,6 +26,10 @@ class TicketHelper
     const LEVEL_CRITICAL = 50;
     const LEVEL_DANGER = 60;
 
+    /**
+     * @param int $status
+     * @return string
+     */
     public static function statusLabel($status)
     {
         switch ($status) {
@@ -49,16 +51,23 @@ class TicketHelper
         ]);
     }
 
+    /**
+     * @return array
+     */
     public static function getStatusList()
     {
         return [
-            self::STATUS_WAIT => \Yii::t('support', 'Waiting'),
-            self::STATUS_ANSWERED => \Yii::t('support', 'Answered'),
-            self::STATUS_CLOSE => \Yii::t('support', 'Close'),
-            self::STATUS_DELETE => \Yii::t('support', 'Deleted'),
+            self::STATUS_WAIT => Support::t('base', 'Waiting'),
+            self::STATUS_ANSWERED => Support::t('base', 'Answered'),
+            self::STATUS_CLOSE => Support::t('base', 'Close'),
+            self::STATUS_DELETE => Support::t('base', 'Deleted'),
         ];
     }
 
+    /**
+     * @param $status
+     * @return string
+     */
     public static function levelLabel($status)
     {
         switch ($status) {
@@ -89,34 +98,41 @@ class TicketHelper
         ]);
     }
 
+    /**
+     * @return array
+     */
     public static function getLevelList()
     {
         return [
-            self::LEVEL_INFO => \Yii::t('support', 'Info'),
-            self::LEVEL_NOTICE => \Yii::t('support', 'Notice'),
-            self::LEVEL_WARNING => \Yii::t('support', 'Warning'),
-            self::LEVEL_ERROR => \Yii::t('support', 'Error'),
-            self::LEVEL_CRITICAL => \Yii::t('support', 'Critical'),
-            self::LEVEL_DANGER => \Yii::t('support', 'Danger'),
+            self::LEVEL_INFO => Support::t('base', 'Info'),
+            self::LEVEL_NOTICE => Support::t('base', 'Notice'),
+            self::LEVEL_WARNING => Support::t('base', 'Warning'),
+            self::LEVEL_ERROR => Support::t('base', 'Error'),
+            self::LEVEL_CRITICAL => Support::t('base', 'Critical'),
+            self::LEVEL_DANGER => Support::t('base', 'Danger'),
         ];
     }
 
+    /**
+     * @return array
+     */
     public static function attributeLabels()
     {
         return [
-            'ID' => Yii::t('support', 'ID'),
-            'Category ID' => Yii::t('support', 'Category'),
-            'Parent ID' => Yii::t('support', 'Parent'),
-            'Status' => Yii::t('support', 'Status'),
-            'Answered' => Yii::t('support', 'Answered'),
-            'Created At' => Yii::t('support', 'Created'),
-            'Sending At' => Yii::t('support', 'Sending'),
-            'Filename' => Yii::t('support', 'Filename'),
-            'Title' => Yii::t('support', 'Title'),
-            'Message' => Yii::t('support', 'Message'),
-            'User ID' => Yii::t('support', 'User'),
-            'Email' => Yii::t('support', 'Email'),
-            'Fio' => Yii::t('support', 'Fio'),
+            'id' => Support::t('base', '#'),
+            'category_id' => Support::t('base', 'Category'),
+            'parent_id' => Support::t('base', 'Parent'),
+            'status' => Support::t('base', 'Status'),
+            'answered' => Support::t('base', 'Answered'),
+            'created_at' => Support::t('base', 'Created'),
+            'sending_at' => Support::t('base', 'Sending'),
+            'filename' => Support::t('base', 'Filename'),
+            'title' => Support::t('base', 'Title'),
+            'message' => Support::t('base', 'Message'),
+            'user_id' => Support::t('base', 'User'),
+            'email' => Support::t('base', 'Email'),
+            'fio' => Support::t('base', 'Fio'),
+            'level' => Support::t('base', 'Level'),
         ];
     }
 

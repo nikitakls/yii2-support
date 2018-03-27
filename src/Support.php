@@ -2,14 +2,26 @@
 
 namespace nikitakls\support;
 
+use Yii;
 use yii\web\Controller;
 use yiidreamteam\upload\FileUploadBehavior;
+use yii\base\Module;
 
 /**
  * support module definition class
  */
-class Support extends \yii\base\Module
+class Support extends Module
 {
+    /**
+     * @var string
+     */
+    public $layout;
+
+    /**
+     * @var string
+     */
+    public $guestLayout = null;
+
     /**
      * @inheritdoc
      */
@@ -62,15 +74,33 @@ class Support extends \yii\base\Module
     {
         if ($this->isBackend) {
             $this->controllerNamespace .= '\backend';
-        } elseif (\Yii::$app->user->identity) {
-            $this->controllerNamespace .= '\user';
         } else {
-            $this->controllerNamespace .= '\guest';
+            $this->controllerNamespace .= '';
         }
+        \Yii::$container->set('nikitakls\support\Mailer', $this->mailer);
+        $this->registerTranslations();
+
         parent::init();
     }
 
-    public function getAdminMenuItems($controller = false)
+    public function registerTranslations()
+    {
+        \Yii::$app->i18n->translations['support.*'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'sourceLanguage' => 'en-US',
+            'basePath' => __DIR__ . '/messages',
+            'fileMap' => [
+                'support.support' => 'support.php',
+                'support.base' => 'base.php',
+            ],
+        ];
+    }
+
+    /**
+     * @param null|Controller $controller
+     * @return array
+     */
+    public function getAdminMenuItems($controller = null)
     {
         if ($controller instanceof Controller) {
             $isModule = $controller->module->id == $this->id;
@@ -82,11 +112,23 @@ class Support extends \yii\base\Module
             return [];
         }
         return [
-            'label' => 'Support',
+            'label' => self::t('base', 'Support'),
             'icon' => 'support',
             'active' => $isModule,
             'url' => '/' . $this->urlPrefix . '/ticket',
         ];
+    }
+
+    /**
+     * @param $category
+     * @param $message
+     * @param array $params
+     * @param null $language
+     * @return string
+     */
+    public static function t($category, $message, $params = [], $language = null)
+    {
+        return Yii::t('support.' . $category, $message, $params, $language);
     }
 
 }

@@ -6,6 +6,7 @@ use nikitakls\support\helpers\TicketHelper;
 
 /**
  * This is the model class for active record model "SupportRequest".
+ * @author nikitakls
  *
  * @property string $email
  * @property string $fio
@@ -25,7 +26,7 @@ class TicketGuestCreateForm extends TicketCreateForm
         return [
             [['category_id', 'email', 'fio'], 'required'],
             [['category_id'], 'integer'],
-            ['verifyCode', 'captcha', 'captchaAction' => '/support/default/captcha'],
+            ['verifyCode', 'captcha', 'captchaAction' => '/support/contact/captcha'],
             [['title', 'email', 'fio'], 'string', 'max' => 255],
         ];
     }

@@ -5,10 +5,10 @@ namespace nikitakls\support\models;
 use nikitakls\support\forms\content\ContentCreateForm;
 use nikitakls\support\helpers\ContentHelper;
 use nikitakls\support\models\search\ContentQuery;
+use nikitakls\support\Support;
 use nikitakls\support\traits\ModuleTrait;
-use Yii;
 use yiidreamteam\upload\FileUploadBehavior;
-
+use yii\db\ActiveRecord;
 /**
  * This is the model class for table "support_content".
  *
@@ -24,7 +24,7 @@ use yiidreamteam\upload\FileUploadBehavior;
  * @property Ticket $ticket
  * @mixin FileUploadBehavior
  */
-class Content extends \yii\db\ActiveRecord
+class Content extends ActiveRecord
 {
     use ModuleTrait;
 
@@ -82,14 +82,14 @@ class Content extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('support', 'ID'),
-            'ticket_id' => Yii::t('support', 'Ticket ID'),
-            'message' => Yii::t('support', 'Message'),
-            'filename' => Yii::t('support', 'Filename'),
-            'type' => Yii::t('support', 'Type'),
-            'user_id' => Yii::t('support', 'User ID'),
-            'created_at' => Yii::t('support', 'Created At'),
-            'sending_at' => Yii::t('support', 'Sending At'),
+            'id' => Support::t('base', 'ID'),
+            'ticket_id' => Support::t('base', 'Ticket ID'),
+            'message' => Support::t('base', 'Message'),
+            'filename' => Support::t('base', 'Filename'),
+            'type' => Support::t('base', 'Type'),
+            'user_id' => Support::t('base', 'User ID'),
+            'created_at' => Support::t('base', 'Created At'),
+            'sending_at' => Support::t('base', 'Sending At'),
         ];
     }
 
@@ -103,7 +103,7 @@ class Content extends \yii\db\ActiveRecord
      */
     public function getTicket()
     {
-        return $this->hasOne(Ticket::className(), ['id' => 'ticket_id']);
+        return $this->hasOne(Ticket::class, ['id' => 'ticket_id']);
     }
 
     /** @inheritdoc */

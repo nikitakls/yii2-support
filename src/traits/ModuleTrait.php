@@ -3,6 +3,7 @@
 namespace nikitakls\support\traits;
 
 use nikitakls\support\Support;
+use yii\base\Module;
 
 /**
  * Trait ModuleTrait
@@ -12,7 +13,7 @@ use nikitakls\support\Support;
 trait ModuleTrait
 {
     /**
-     * @return Support
+     * @return Support|Module
      */
     public function getModule()
     {

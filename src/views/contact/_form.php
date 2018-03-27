@@ -1,6 +1,7 @@
 <?php
 
 use nikitakls\support\models\search\CategorySearch;
+use nikitakls\support\Support;
 use yii\captcha\Captcha;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -26,12 +27,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-        'captchaAction' => '/support/default/captcha'
+    <?= $form->field($model, 'verifyCode')->widget(Captcha::class, [
+        'captchaAction' => '/support/contact/captcha'
     ]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('support', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Support::t('base', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

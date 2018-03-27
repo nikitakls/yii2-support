@@ -44,6 +44,7 @@ Add module in config file application for frontend:
     'class' => \nikitakls\support\Support::class,
     'support'   => 'nikitakls\support\Support',
     'layout' => '@frontend/views/layouts/profile',
+    'guestLayout' => '@frontend/views/layouts/main',
     'isBackend' => false,
     'supportEmail' => 'support@example.com',
     'sendEmailToSupport' => true,
@@ -54,11 +55,16 @@ Add module in config file application for frontend:
     ]
 ],
 ```
+You can get access to module via url:
+http://application.url/support/default - for users
+http://application.url/support/contact - for guest
+
 
 Add module in config file application for backend:
 ```php
 'modules'   => [
     ...
-    'isBackend' => false,
+    'isBackend' => true,
 ],
 ```
+

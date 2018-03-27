@@ -3,8 +3,8 @@
 namespace nikitakls\support\models;
 
 use nikitakls\support\models\search\CategoryQuery;
-use Yii;
-
+use nikitakls\support\Support;
+use yii\db\ActiveRecord;
 /**
  * This is the model class for table "{{%support_category}}".
  *
@@ -15,7 +15,7 @@ use Yii;
  *
  * @property Ticket[] $supportRequests
  */
-class Category extends \yii\db\ActiveRecord
+class Category extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -52,10 +52,11 @@ class Category extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', 'Title'),
-            'icon' => Yii::t('app', 'Icon'),
-            'status' => Yii::t('app', 'Status'),
+            'id' => Support::t('base', 'ID'),
+            'title' => Support::t('base', 'Title'),
+            'icon' => Support::t('base', 'Icon'),
+            'status' => Support::t('base', 'Status'),
+            'created_at' => Support::t('base', 'Created'),
         ];
     }
 
@@ -64,7 +65,7 @@ class Category extends \yii\db\ActiveRecord
      */
     public function getSupportRequests()
     {
-        return $this->hasMany(Ticket::className(), ['category_id' => 'id']);
+        return $this->hasMany(Ticket::class, ['category_id' => 'id']);
     }
 
 }

@@ -2,6 +2,7 @@
 
 use nikitakls\support\helpers\TicketHelper;
 use nikitakls\support\models\Ticket;
+use nikitakls\support\Support;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -10,7 +11,7 @@ use yii\widgets\DetailView;
 /* @var $contentForm \nikitakls\support\forms\content\ContentCreateForm */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('support', 'Support Requests'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Support::t('base', 'Support Requests'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="support-request-view">
@@ -22,18 +23,28 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
+                    'id',
                     [
-                        'label' => Yii::t('support', 'Category'),
+                        'label' => Support::t('base', 'Category'),
                         'attribute' => 'category_id',
                         'value' => function (Ticket $item) {
                             return $item->category->title;
                         }
                     ],
                     [
+                        'label' => Support::t('base', 'Status'),
                         'attribute' => 'status',
                         'format' => 'raw',
                         'value' => function (Ticket $item) {
                             return TicketHelper::statusLabel($item->status);
+                        }
+                    ],
+                    [
+                        'label' => Support::t('base', 'Level'),
+                        'attribute' => 'level',
+                        'format' => 'raw',
+                        'value' => function (Ticket $item) {
+                            return TicketHelper::levelLabel($item->level);
                         }
                     ],
                 ],
@@ -44,8 +55,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'model' => $model,
                 'attributes' => [
                     'updated_at:datetime',
+                    'user_id',
+                    'email:email',
+                    'fio',
                 ],
             ]) ?>
+
         </div>
     </div>
 
@@ -56,8 +71,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ]) ?>
         <?php endforeach; ?>
     </div>
-    <div class="answer-form">
-        <?= $this->render('_answer', ['model' => $contentForm]) ?>
-    </div>
-
 </div>

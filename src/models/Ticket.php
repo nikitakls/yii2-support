@@ -7,6 +7,7 @@ use nikitakls\support\forms\ticket\TicketCreateForm;
 use nikitakls\support\forms\ticket\TicketEditForm;
 use nikitakls\support\helpers\TicketHelper;
 use nikitakls\support\models\search\TicketQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%support_request}}".
@@ -25,8 +26,9 @@ use nikitakls\support\models\search\TicketQuery;
  * @property string $fio
  *
  * @property Category $category
+ * @property Content[] $contents
  */
-class Ticket extends \yii\db\ActiveRecord
+class Ticket extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -69,7 +71,7 @@ class Ticket extends \yii\db\ActiveRecord
             [['category_id', 'status', 'level', 'created_at'], 'required'],
             [['category_id', 'parent_id', 'status', 'level', 'created_at', 'user_id'], 'integer'],
             [['filename', 'title', 'email', 'fio'], 'string', 'max' => 255],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
 
@@ -80,7 +82,7 @@ class Ticket extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class' => SaveRelationsBehavior::className(),
+                'class' => SaveRelationsBehavior::class,
                 'relations' => ['contents'],
             ],
         ];
@@ -99,7 +101,7 @@ class Ticket extends \yii\db\ActiveRecord
      */
     public function getCategory()
     {
-        return $this->hasOne(Category::className(), ['id' => 'category_id']);
+        return $this->hasOne(Category::class, ['id' => 'category_id']);
     }
 
     /**
@@ -107,7 +109,7 @@ class Ticket extends \yii\db\ActiveRecord
      */
     public function getContents()
     {
-        return $this->hasMany(Content::className(), ['ticket_id' => 'id'])->orderBy('created_at');
+        return $this->hasMany(Content::class, ['ticket_id' => 'id'])->orderBy('created_at');
     }
 
     public function edit(TicketEditForm $form)
@@ -128,5 +130,20 @@ class Ticket extends \yii\db\ActiveRecord
     public function setAnswered()
     {
         $this->status = TicketHelper::STATUS_ANSWERED;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash(){
+        return md5(implode('|', [$this->id, $this->created_at, $this->email]));
+    }
+
+    /**
+     * @param $hash
+     * @return bool
+     */
+    public function validateHash($hash){
+        return $this->getHash() === $hash;
     }
 }

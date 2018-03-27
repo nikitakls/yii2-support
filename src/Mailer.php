@@ -1,23 +1,13 @@
 <?php
-/**
- * Mailer.php
- * User: nikitakls
- * Date: 07.02.18
- * Time: 15:26
- */
 
 namespace nikitakls\support;
 
-
-use dektrium\user\models\Token;
-use dektrium\user\models\User;
 use Yii;
 use yii\base\Component;
 
 /**
- * Mailer.
- *
- * @author Dmitry Erofeev <dmeroff@gmail.com>
+ * Mailer.php
+ * @author  nikitakls
  */
 class Mailer extends Component
 {
@@ -42,7 +32,7 @@ class Mailer extends Component
     public function getDefaultSubject()
     {
         if ($this->defaultSubject == null) {
-            $this->setWelcomeSubject(Yii::t('support', 'Welcome to {0}', Yii::$app->name));
+            $this->setWelcomeSubject(Support::t('base', 'Welcome to {0}', Yii::$app->name));
         }
 
         return $this->defaultSubject;
@@ -65,29 +55,10 @@ class Mailer extends Component
     }
 
     /**
-     * Sends an email to a user after registration.
-     *
-     * @param User  $user
-     * @param Token $token
-     * @param bool  $showPassword
-     *
-     * @return bool
-     */
-    public function sendDefaultMessage(User $user)
-    {
-        return $this->sendMessage(
-            $user->email,
-            $this->getWelcomeSubject(),
-            'default',
-            ['user' => $user, 'module' => $this->module]
-        );
-    }
-
-    /**
      * @param string $to
      * @param string $subject
      * @param string $view
-     * @param array  $params
+     * @param array $params
      *
      * @return bool
      */

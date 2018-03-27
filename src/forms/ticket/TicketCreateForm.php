@@ -12,6 +12,7 @@ use nikitakls\support\helpers\TicketHelper;
  * @property int $category_id
  * @property string $filename
  * @property string $title
+ * @property ContentCreateForm $content
  */
 class TicketCreateForm extends CompositeForm
 {
@@ -45,11 +46,17 @@ class TicketCreateForm extends CompositeForm
         return TicketHelper::attributeLabels();
     }
 
+    /**
+     * @return string
+     */
     public function getViewName()
     {
         return '_form';
     }
 
+    /**
+     * @return array
+     */
     public function internalForms()
     {
         return ['content'];

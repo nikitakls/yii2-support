@@ -1,6 +1,7 @@
 <?php
 
 use nikitakls\support\helpers\ContentHelper;
+use nikitakls\support\Support;
 use yii\helpers\Html;
 
 /**
@@ -28,11 +29,11 @@ use yii\helpers\Html;
                 <?php $icon = Html::tag('span', '', ['class' => "glyphicon glyphicon-pencil"]) ?>
 
                 <?= Html::a('<i class="glyphicon glyphicon-pencil"></i>',
-                    ['content/update', 'id' => $model->id], ['title' => Yii::t('yii', 'Update')]) ?>
+                    ['content/update', 'id' => $model->id], ['title' => Support::t('base', 'Update')]) ?>
                 <?= Html::a('<i class="glyphicon glyphicon-trash"></i>',
                     ['content/delete', 'id' => $model->id], [
-                        'title' => Yii::t('yii', 'Delete'),
-                        'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                        'title' => Support::t('base', 'Delete'),
+                        'data-confirm' => Support::t('base', 'Are you sure you want to delete this item?'),
                         'data-method' => 'post',
                     ]) ?>
 
@@ -40,7 +41,7 @@ use yii\helpers\Html;
 
             <div class="col-md-5">
                 <?php if (!is_null($model->filename) && !empty($model->filename)): ?>
-                    <?= Yii::t('support', 'File:') ?>
+                    <?= Support::t('base', 'File:') ?>
 
                     <?= Html::a($model->filename,
                         $model->getUploadedFileUrl('filename'),

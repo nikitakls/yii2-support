@@ -2,12 +2,13 @@
 
 namespace nikitakls\support\forms\content;
 
-use Yii;
+use nikitakls\support\helpers\ContentHelper;
 use yii\base\Model;
 use yii\web\UploadedFile;
 
 /**
  * This is the model class for active record model "Content".
+ * @author nikitakls
  *
  * @property int $ticket_id
  * @property string $message
@@ -45,18 +46,12 @@ class ContentCreateForm extends Model
      */
     public function attributeLabels()
     {
-        return [
-            'ID' => Yii::t('support', 'ID'),
-            'Ticket ID' => Yii::t('support', 'Ticket ID'),
-            'Message' => Yii::t('support', 'Message'),
-            'Filename' => Yii::t('support', 'Filename'),
-            'Type' => Yii::t('support', 'Type'),
-            'User ID' => Yii::t('support', 'User ID'),
-            'Created At' => Yii::t('support', 'Created At'),
-            'Sending At' => Yii::t('support', 'Sending At'),
-        ];
+        return ContentHelper::attributeLabels();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeValidate()
     {
         if (parent::beforeValidate()) {

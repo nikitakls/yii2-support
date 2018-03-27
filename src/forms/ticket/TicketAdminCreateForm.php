@@ -4,6 +4,7 @@ namespace nikitakls\support\forms\ticket;
 
 /**
  * This is the model class for active record model "SupportRequest".
+ * @author nikitakls
  *
  * @property int $level
  * @property int $user_id
@@ -29,6 +30,9 @@ class TicketAdminCreateForm extends TicketCreateForm
         ];
     }
 
+    /**
+     * @return string
+     */
     public function getViewName()
     {
         return '_admin_form';

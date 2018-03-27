@@ -5,6 +5,11 @@ namespace nikitakls\support\repo;
 use nikitakls\support\models\Content;
 use yii\web\NotFoundHttpException;
 
+/**
+ * Class ContentRepo
+ * @package nikitakls\support\repo
+ * @author nikitakls
+ */
 class ContentRepo
 {
     protected $_cache = [];
@@ -25,6 +30,7 @@ class ContentRepo
      * get Content by pk
      * @param integer $id task
      * @param bool $canCache can take model from cache
+     * @param string $pk
      * @throws NotFoundHttpException
      * @return Content
      */
@@ -54,11 +60,11 @@ class ContentRepo
     /**
      * Remove the current model in storage.
      *
-     * @throws \RuntimeException
      * @param Content $model
-     * meaning all attributes that are loaded from DB will be saved.
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
-
     public function remove(Content $model)
     {
         if (!$model->delete()) {

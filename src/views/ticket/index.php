@@ -3,6 +3,7 @@
 use nikitakls\support\helpers\TicketHelper;
 use nikitakls\support\models\search\CategorySearch;
 use nikitakls\support\models\Ticket;
+use nikitakls\support\Support;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
@@ -11,14 +12,14 @@ use yii\widgets\Pjax;
 /* @var $searchModel \nikitakls\support\models\search\TicketSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('support', 'Requests');
+$this->title = Support::t('base', 'Requests');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="support-request-index">
 
     <p>
-        <?= Html::a(Yii::t('support', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a(Yii::t('support', 'Categories'), ['category/index'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Support::t('base', 'Create'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Support::t('base', 'Categories'), ['category/index'], ['class' => 'btn btn-success']) ?>
     </p>
     <?php Pjax::begin(); ?>
     <?= GridView::widget([
@@ -27,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id',
             [
-                'label' => Yii::t('support', 'Category'),
+                'label' => Support::t('base', 'Category'),
                 'attribute' => 'category_id',
                 'filter' => CategorySearch::items(),
                 'value' => function (Ticket $item) {

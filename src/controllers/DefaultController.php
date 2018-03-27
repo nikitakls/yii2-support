@@ -1,21 +1,43 @@
 <?php
 
-namespace nikitakls\support\controllers\guest;
+namespace nikitakls\support\controllers;
 
 use nikitakls\support\forms\content\ContentCreateForm;
-use nikitakls\support\forms\ticket\TicketGuestCreateForm;
+use nikitakls\support\forms\ticket\TicketCreateForm;
+use nikitakls\support\models\search\TicketSearch;
 use nikitakls\support\repo\TicketRepo;
 use nikitakls\support\services\SupportService;
+use nikitakls\support\Support;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
 /**
  * RequestController implements the CRUD actions for SupportRequest model.
+ * @author nikitakls
  */
 class DefaultController extends Controller
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['view', 'index', 'create', 'update'],
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     /** @var SupportService */
     protected $supportService;
@@ -23,6 +45,14 @@ class DefaultController extends Controller
     /** @var TicketRepo */
     protected $requests;
 
+    /**
+     * DefaultController constructor.
+     * @param $id
+     * @param $module
+     * @param TicketRepo $requests
+     * @param SupportService $supportService
+     * @param array $config
+     */
     public function __construct($id, $module, TicketRepo $requests, SupportService $supportService,
                                 array $config = [])
     {
@@ -31,13 +61,19 @@ class DefaultController extends Controller
         $this->requests = $requests;
     }
 
-    public function actions()
+    /**
+     * Lists all SupportRequest models.
+     * @return mixed
+     */
+    public function actionIndex()
     {
-        return [
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-            ],
-        ];
+        $searchModel = new TicketSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, ['category'], Yii::$app->user->id);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -45,7 +81,7 @@ class DefaultController extends Controller
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
-     * @throws ForbiddenHttpException
+     * @throws ForbiddenHttpException if owner not equal current user
      */
     public function actionView($id)
     {
@@ -57,15 +93,15 @@ class DefaultController extends Controller
 
         if ($contentForm->load(Yii::$app->request->post()) && $contentForm->validate()) {
             try {
-                $model = $this->supportService->addUserContent($id, $contentForm, null);
-                Yii::$app->session->setFlash('success', 'You answer saved successfully.');
+                $model = $this->supportService->addUserContent($id, $contentForm, Yii::$app->user->id);
+                Yii::$app->session->setFlash('success', Support::t('base', 'You answer saved successfully.'));
                 return $this->redirect(['view', 'id' => $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
-        return $this->render('guest/view', [
-            'model' => $this->requests->get($id),
+        return $this->render('view', [
+            'model' => $model,
             'contentForm' => $contentForm,
         ]);
     }
@@ -75,22 +111,23 @@ class DefaultController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionCreate()
     {
-        $form = new TicketGuestCreateForm();
+        $form = new TicketCreateForm();
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $model = $this->supportService->createGuest($form);
-                Yii::$app->session->setFlash('success', 'You puzzle saved successfully.');
+                $model = $this->supportService->createUser($form, Yii::$app->user->id);
+                Yii::$app->session->setFlash('success', Support::t('base', 'You request saved successfully.'));
                 return $this->redirect(['view', 'id' => $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
-        return $this->render('guest/create', [
+        return $this->render('create', [
             'model' => $form,
         ]);
 
     }
+
 }

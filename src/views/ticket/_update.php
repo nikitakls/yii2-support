@@ -2,6 +2,7 @@
 
 use nikitakls\support\helpers\TicketHelper;
 use nikitakls\support\models\search\CategorySearch;
+use nikitakls\support\Support;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -31,7 +32,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'fio')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('support', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Support::t('base', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

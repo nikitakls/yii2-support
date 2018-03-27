@@ -5,6 +5,11 @@ namespace nikitakls\support\repo;
 use nikitakls\support\models\Ticket;
 use yii\web\NotFoundHttpException;
 
+/**
+ * Class TicketRepo
+ * @package nikitakls\support\repo
+ * @author nikitakls
+ */
 class TicketRepo
 {
     protected $_cache = [];
@@ -25,6 +30,7 @@ class TicketRepo
      * get SupportRequest by pk
      * @param integer $id task
      * @param bool $canCache can take model from cache
+     * @param string $pk
      * @throws NotFoundHttpException
      * @return Ticket
      */
@@ -54,11 +60,9 @@ class TicketRepo
     /**
      * Remove the current model in storage.
      *
-     * @throws \RuntimeException
+     * @throws
      * @param Ticket $model
-     * meaning all attributes that are loaded from DB will be saved.
      */
-
     public function remove(Ticket $model)
     {
         if (!$model->delete()) {
@@ -88,8 +92,6 @@ class TicketRepo
                          array $attributeNames = null)
     {
         if (!$model->save($runValidation, $attributeNames)) {
-            var_dump($model->getErrors());
-            die();
             throw new \RuntimeException('Saving SupportRequest error.');
         }
     }

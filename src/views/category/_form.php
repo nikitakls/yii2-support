@@ -1,6 +1,7 @@
 <?php
 
 use nikitakls\support\helpers\CategoryHelper;
+use nikitakls\support\Support;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -20,7 +21,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'status')->dropDownList(CategoryHelper::getStatusList(), ['prompt' => '']) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('support', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Support::t('base', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

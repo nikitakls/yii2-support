@@ -5,6 +5,11 @@ namespace nikitakls\support\repo;
 use nikitakls\support\models\Category;
 use yii\web\NotFoundHttpException;
 
+/**
+ * Class CategoryRepo
+ * @package nikitakls\support\repo
+ * @author nikitakls
+ */
 class CategoryRepo
 {
     protected $_cache = [];
@@ -25,6 +30,7 @@ class CategoryRepo
      * get SupportCategory by pk
      * @param integer $id task
      * @param bool $canCache can take model from cache
+     * @param string $pk
      * @throws NotFoundHttpException
      * @return Category
      */
@@ -54,11 +60,9 @@ class CategoryRepo
     /**
      * Remove the current model in storage.
      *
-     * @throws \RuntimeException
+     * @throws
      * @param Category $model
-     * meaning all attributes that are loaded from DB will be saved.
      */
-
     public function remove(Category $model)
     {
         if (!$model->delete()) {

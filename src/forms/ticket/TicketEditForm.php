@@ -8,6 +8,7 @@ use yii\base\Model;
 
 /**
  * This is the model class for active record model "SupportRequest".
+ * @author nikitakls
  *
  * @property int $category_id
  * @property int $parent_id
@@ -37,6 +38,11 @@ class TicketEditForm extends Model
     protected $_model;
 
 
+    /**
+     * TicketEditForm constructor.
+     * @param Ticket $model
+     * @param array $config
+     */
     public function __construct(Ticket $model, $config = [])
     {
         $this->category_id = $model->category_id;
@@ -54,7 +60,7 @@ class TicketEditForm extends Model
         parent::__construct($config);
     }
 
-    /*
+    /**
      * @inheritdoc
      */
     public function rules()

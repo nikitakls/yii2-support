@@ -1,18 +1,15 @@
 <?php
-/**
- * PuzzleHelper.php
- * User: nikitakls
- * Date: 05.12.17
- * Time: 16:53
- */
 
 namespace nikitakls\support\helpers;
 
-use Yii;
+use nikitakls\support\Support;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-
+/**
+ * PuzzleHelper
+ * @author nikitakls
+ */
 class CategoryHelper
 {
 
@@ -40,8 +37,8 @@ class CategoryHelper
     public static function getStatusList()
     {
         return [
-            self::STATUS_ACTIVE => Yii::t('support', 'Active'),
-            self::STATUS_DRAFT => Yii::t('support', 'Draft'),
+            self::STATUS_ACTIVE => Support::t('base', 'Active'),
+            self::STATUS_DRAFT => Support::t('base', 'Draft'),
         ];
     }
 

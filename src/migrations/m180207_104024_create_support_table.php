@@ -64,8 +64,8 @@ class m180207_104024_create_support_table extends Migration
      */
     public function down()
     {
-        $this->dropTable('{{%support_ticket}}');
         $this->dropTable('{{%support_content}}');
+        $this->dropTable('{{%support_ticket}}');
         $this->dropTable('{{%support_category}}');
     }
 }

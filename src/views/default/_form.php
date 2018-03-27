@@ -1,6 +1,7 @@
 <?php
 
 use nikitakls\support\models\search\CategorySearch;
+use nikitakls\support\Support;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -22,7 +23,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model->content, 'filename')->fileInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('support', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Support::t('base', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

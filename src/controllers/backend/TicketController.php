@@ -8,6 +8,7 @@ use nikitakls\support\forms\ticket\TicketEditForm;
 use nikitakls\support\models\search\TicketSearch;
 use nikitakls\support\repo\TicketRepo;
 use nikitakls\support\services\SupportService;
+use nikitakls\support\Support;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -15,6 +16,7 @@ use yii\web\NotFoundHttpException;
 
 /**
  * RequestController implements the CRUD actions for SupportRequest model.
+ * @author nikitakls
  */
 class TicketController extends Controller
 {
@@ -23,6 +25,14 @@ class TicketController extends Controller
     /** @var TicketRepo */
     protected $requests;
 
+    /**
+     * TicketController constructor.
+     * @param $id
+     * @param $module
+     * @param TicketRepo $requests
+     * @param SupportService $supportService
+     * @param array $config
+     */
     public function __construct($id, $module, TicketRepo $requests, SupportService $supportService,
                                 array $config = [])
     {
@@ -38,7 +48,7 @@ class TicketController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -74,7 +84,7 @@ class TicketController extends Controller
         if ($contentForm->load(Yii::$app->request->post()) && $contentForm->validate()) {
             try {
                 $model = $this->supportService->addSupportContent($id, $contentForm, Yii::$app->user->id);
-                Yii::$app->session->setFlash('success', 'You answer saved successfully.');
+                Yii::$app->session->setFlash('success', Support::t('base', 'You answer saved successfully.'));
                 return $this->redirect(['view', 'id' => $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -98,7 +108,7 @@ class TicketController extends Controller
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
                 $model = $this->supportService->createSupport($form, Yii::$app->user->id);
-                Yii::$app->session->setFlash('success', 'You ticket saved successfully.');
+                Yii::$app->session->setFlash('success', Support::t('base','You request saved successfully.'));
                 return $this->redirect(['view', 'id' => $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -127,7 +137,7 @@ class TicketController extends Controller
 
             try {
                 $model = $this->supportService->edit($id, $form);
-                Yii::$app->session->setFlash('success', 'SupportRequest updated.');
+                Yii::$app->session->setFlash('success', Support::t('base','You request updated successfully.'));
                 return $this->redirect(['view', 'id' => $model->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
